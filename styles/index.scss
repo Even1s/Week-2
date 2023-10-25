@@ -9,5 +9,16 @@ body {
 .container {
   max-width: 1200px;
   padding: 0 10px;
-  margin: auto;
+  margin: 25px auto;
+}
+.addpost {
+  form {
+    height: 100%;
+    display: grid;
+    gap: 12px;
+    justify-items: start;
+    input, textarea {
+      height: 32px;
+    }
+  }
 }

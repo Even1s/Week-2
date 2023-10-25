@@ -38,19 +38,19 @@
     ],
     "references":[
         {
-          "input":{
-            "type":"checkbox",
-            "required":true,
-            "checked":"false"
-          }
+            "input":{
+                "type":"checkbox",
+                "required":true,
+                "checked":"false"
+            }
         },
         {
             "text without ref":"View Author Post",
             "text":"View Author Post",
             "ref":"viewauthor"
         }
-      ],
-        "buttons":[
+    ],
+    "buttons":[
         {
             "text":"Create Post"
         }

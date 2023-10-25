@@ -11,7 +11,17 @@ body {
 .container {
   max-width: 1200px;
   padding: 0 10px;
-  margin: auto;
+  margin: 25px auto;
+}
+
+.addpost form {
+  height: 100%;
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+.addpost form input, .addpost form textarea {
+  height: 32px;
 }
 
 /*# sourceMappingURL=index.css.map */
