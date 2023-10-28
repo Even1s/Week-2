@@ -1,3 +1,4 @@
+ /*
 async function readTextFile(fileUrl) {
     const response = await fetch(fileUrl);
     let jsonFile;
@@ -6,6 +7,8 @@ async function readTextFile(fileUrl) {
         return jsonFile;
     }
 }
+ */
+ // аналог если потребуется прочитать файл
 function createInputs(form, inputData) {
     let input;
     switch (inputData.input.type) {
@@ -13,7 +16,7 @@ function createInputs(form, inputData) {
             input = fileInput(form, inputData);
             break;
         case 'technology':
-            input = technologyInputs(form, inputData);
+            input = technologyInput(form, inputData);
             break;
         case 'color':
             colorInputs(form, inputData);
@@ -28,83 +31,55 @@ function createInputs(form, inputData) {
             input = simpleInput(form, inputData);
             break;
     }
-    if (inputData.input.required) { input.setAttribute('required', inputData.input.required ) }
-
-
-    //===========================================
-    let divCheckbox;
-    if (inputData.input.type === 'textarea') {
-        input = document.createElement(inputData.input.type);
-        input.setAttribute('rows', '2' );
-    } else if(inputData.input.type === 'checkbox') {
-        input = document.createElement('input');
-        divCheckbox = document.createElement('div');
-    } else if(inputData.input.type === 'color') {
-        let type = "colors";
-        inputData.input[type].forEach((color) =>{
-            let checkBoxColor = document.createElement('input');
-            let labelBlockColor = document.createElement('label');
-            let divColors = document.createElement('div');
-            checkBoxColor.setAttribute('type', 'checkbox');
-            checkBoxColor.setAttribute('id', color);
-            checkBoxColor.setAttribute('name', color);
-            labelBlockColor.setAttribute('for', color);
-            labelBlockColor.setAttribute('style', `background-color: ${color}`)
-            divColors.classList.add('color-block');
-            divColors.appendChild(checkBoxColor);
-            divColors.appendChild(labelBlockColor);
-            form.appendChild(divColors);
-        });
-    } else {
-        input = document.createElement('input');
-    }
-    if(inputData.input.type !== 'color' && inputData.input.type !== 'technology') {
-        input.setAttribute('type', inputData.input.type );
-        input.setAttribute('name', inputData.label );
-        input.setAttribute('id', inputData.label );
-    }
-    let inputLabel = document.createElement('label');
-    inputLabel.innerHTML = inputData.label;
-    inputLabel.setAttribute('for', inputData.label );
-    if (inputData.input.type === 'checkbox') {
-        divCheckbox.classList.add('checkbox-block')
-        divCheckbox.appendChild(input);
-        divCheckbox.appendChild(inputLabel);
-        form.appendChild(divCheckbox);
-    } else if(inputData.input.type === 'color') {
-    } else {
-        form.appendChild(inputLabel);
-        form.appendChild(input);
-    }
+    if (inputData.input.required) input.setAttribute('required', inputData.input.required );
+    if (inputData.input.placeholder) input.setAttribute('placeholder', inputData.input.placeholder);
+    if (inputData.input.mask) input.setAttribute('placeholder', inputData.input.mask);
 }
-function createReference(form, formText) {
-    let checkboxData = formText.references[0];
-    let checkbox = document.createElement('input');
-    checkbox.setAttribute('type', checkboxData.input.type );
-    checkbox.setAttribute('id', 'viewauthor');
-    checkbox.setAttribute('name', 'viewauthor');
-    checkbox.required = checkboxData.input.required;
-    checkbox.checked = checkboxData.input.checked !== "false";
-    let labelCheckboxData = formText.references[1];
-    let labelCheckbox = document.createElement('label');
-    labelCheckbox.setAttribute('for', checkbox.getAttribute('id'));
-    let labelLink = document.createElement('a');
-    labelLink.setAttribute('href', labelCheckboxData.ref);
-    labelLink.innerHTML = labelCheckboxData.text;
-    labelCheckbox.innerHTML = labelCheckboxData["text without ref"] + " ";
-    labelCheckbox.appendChild(labelLink);
-    let divCheckbox = document.createElement('div');
-    divCheckbox.classList.add('checkbox-block')
-    divCheckbox.appendChild(checkbox);
-    divCheckbox.appendChild(labelCheckbox);
-    form.appendChild(divCheckbox);
+function createReference(form, references) {
+    let textBlock = document.createElement('div');
+    textBlock.classList.add('checkbox-block');
+    let i = 0;
+    references.forEach((elementData) => {
+        let element;
+        if (elementData.input) {
+            let checkboxData = references[0].input;
+            let checkbox = document.createElement('input');
+            checkbox.setAttribute('type', checkboxData.type );
+            checkbox.setAttribute('id', 'check');
+            checkbox.setAttribute('name', 'check');
+            checkbox.required = checkboxData.required;
+            checkbox.checked = checkboxData.checked !== "false";
+            element = checkbox;
+            i++;
+        } else if (elementData["text without ref"]) {
+            let labelCheckbox = document.createElement('label');
+            let labelLink = document.createElement('a');
+            if (i!==0) labelCheckbox.setAttribute('for', 'check');
+            labelLink.setAttribute('href', elementData.ref);
+            labelLink.innerHTML = elementData.text;
+            labelCheckbox.innerHTML = elementData["text without ref"] + " ";
+            labelCheckbox.appendChild(labelLink);
+            element = labelCheckbox;
+        } else {
+            let labelCheckbox = document.createElement('label');
+            let labelLink = document.createElement('a');
+            if (i!==0) labelCheckbox.setAttribute('for', 'check');
+            labelLink.setAttribute('href', elementData.ref);
+            labelLink.innerHTML = elementData.text;
+            labelCheckbox.appendChild(labelLink);
+            element = labelCheckbox;
+        }
+        textBlock.appendChild(element);
+    });
+    form.appendChild(textBlock);
 }
 function createButton(form, formText) {
-    let buttonData = formText.buttons[0];
-    let button = document.createElement('input');
-    button.setAttribute('type', 'submit')
-    button.setAttribute('value', buttonData.text);
-    form.appendChild(button);
+    formText.buttons.forEach((buttonData) => {
+        let button = document.createElement('input');
+        button.setAttribute('type', 'submit')
+        button.setAttribute('value', buttonData.text);
+        form.appendChild(button);
+    });
 }
 async function createForm(formText){
     let formBlock = document.querySelector('.form-block');
@@ -116,15 +91,16 @@ async function createForm(formText){
         createInputs(form, inputData);
     });
 
-    if (formText.references) { createReference(form, formText); }
+    if (formText.references) { createReference(form, formText.references, formText); }
 
     if (formText.buttons) { createButton(form, formText); }
 
     formBlock.appendChild(form);
     return form;
 }
-async function forms(fileUrl) {
-    const text = await readTextFile(fileUrl);
+async function forms(text) {
+    // аналог если потребуется прочитать файл
+    // const text = await readTextFile(fileUrl);
     let formText = JSON.parse(text);
     await createForm(formText);
     const form = document.querySelector("form");
@@ -148,4 +124,23 @@ async function forms(fileUrl) {
         console.log(JSON.stringify(formData));
     })
 }
-forms("./schemas/interview.json");
+function deleteForm() {
+    if (document.querySelector("form")) {
+        document.querySelector('.form-block').removeChild(document.querySelector("form"))
+    }
+}
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('#load').addEventListener('click', () => {
+        let file = document.querySelector('#fileLoad').files[0];
+        let reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = async function () {
+            deleteForm();
+            await forms(reader.result);
+        }
+        reader.onerror = function() {
+            console.log(reader.error);
+        }
+    });
+    document.querySelector('#clear').addEventListener('click', deleteForm);
+});

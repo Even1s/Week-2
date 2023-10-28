@@ -7,10 +7,13 @@ function createLabel(inputData) {
 function simpleInput(form, inputData, needLabel = false) {
     let input = document.createElement('input');
     input.setAttribute('type', inputData.input.type );
-    input.setAttribute('name', inputData.label );
-    input.setAttribute('id', inputData.label );
-    const inputLabel = createLabel(inputData);
-    form.appendChild(inputLabel);
+    let inputLabel;
+    if (inputData.label) {
+        input.setAttribute('name', inputData.label );
+        input.setAttribute('id', inputData.label );
+        inputLabel = createLabel(inputData);
+        form.appendChild(inputLabel);
+    }
     form.appendChild(input);
     if (needLabel) { return [input, inputLabel]; }
     return input;
@@ -50,7 +53,7 @@ function colorInputs(form, inputData) {
         form.appendChild(elementBlock);
     });
 }
-function technologyInputs(form, inputData) {
+function technologyInput(form, inputData) {
     let elementLabel = document.createElement('label');
     let elementBlock = document.createElement('select');
     elementLabel.innerHTML = inputData.label;
