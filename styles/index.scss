@@ -7,18 +7,41 @@ body {
   background-color: #EAEAEA;
 }
 .container {
-  max-width: 1200px;
-  padding: 0 10px;
+  max-width: 800px;
   margin: 25px auto;
+  padding: 0 10px;
 }
-.addpost {
+.form-block {
+  background-color: #3458cc;
+  border-radius: 12px;
+  padding: 16px 18px;
   form {
     height: 100%;
-    display: grid;
-    gap: 12px;
-    justify-items: start;
-    input, textarea {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    input[type='submit'] {
       height: 32px;
     }
+    label, input[type='submit'] {
+      font-size: 18px;
+      font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono", "Droid Sans Mono", monospace, monospace;
+      margin-top: 8px;
+    }
+  }
+}
+.checkbox-block {
+  a {
+    color: inherit;
+  }
+}
+.color-block {
+  label {
+    display: inline-block;
+    width: 48px;
+    height: 16px;
+    background-color: blueviolet;
+    margin-left: 4px;
+    border-radius: 4px;
   }
 }
