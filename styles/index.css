@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  border: 0;
 }
 
 body {
@@ -26,12 +27,52 @@ body {
 }
 .form-block form input[type=submit] {
   height: 32px;
-}
-.form-block form label, .form-block form input[type=submit] {
   font-size: 18px;
-  margin-top: 8px;
+  margin-top: 4px;
+}
+.form-block form label {
+  font-size: 20px;
+  margin-top: 4px;
+  color: azure;
+}
+.form-block form input[type=submit] {
+  background-color: #419152;
+  color: azure;
+  border-radius: 4px;
+  height: 40px;
+  width: 200px;
+  align-self: center;
+}
+.form-block form input[type=submit]:hover {
+  background-color: #59be6e;
+}
+.form-block form input, .form-block form .input-file, .form-block form .checkbox-block {
+  margin-bottom: 4px;
+}
+.form-block form textarea, .form-block form input[type=text], .form-block form input[type=password], .form-block form input[type=email], .form-block form input[type=number], .form-block form input[type=date] {
+  width: 100%;
+  border-radius: 4px;
+  height: 32px;
+  font-size: 18px;
+  padding-left: 6px;
+}
+.form-block form textarea {
+  height: 88px;
+  resize: none;
+}
+.form-block form select {
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
 }
 
+.checkbox-block {
+  margin-top: 4px;
+  width: 100%;
+}
+.checkbox-block input {
+  margin-right: 4px;
+}
 .checkbox-block a {
   color: inherit;
 }
@@ -45,15 +86,81 @@ body {
   border-radius: 4px;
 }
 
-.input-file {
+.load-file-block {
   background-color: #3458cc;
   border-radius: 12px;
   padding: 16px 18px;
   margin-bottom: 24px;
 }
-.input-file h1 {
+.load-file-block h1 {
   color: azure;
   margin-bottom: 6px;
+}
+
+.input-file {
+  position: relative;
+  width: 100%;
+}
+.input-file .file-text {
+  padding: 0 10px;
+  line-height: 40px;
+  height: 40px;
+  float: left;
+  width: calc(100% - 135px);
+  border-radius: 6px 0 0 6px;
+  border: 1px solid #ddd;
+  background-color: rgba(221, 221, 221, 0.6);
+  font-size: 18px;
+}
+.input-file .file-btn {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 16px;
+  color: azure;
+  border-radius: 0 4px 4px 0;
+  background-color: #419152;
+  line-height: 40px;
+  text-align: center;
+  height: 40px;
+  transition: background-color 0.2s;
+  width: 135px;
+  margin: 0;
+}
+.input-file .file-btn:hover {
+  background-color: #59be6e;
+}
+.input-file .file-input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  left: 0;
+}
+
+.button-block {
+  display: flex;
+  gap: 28px;
+  margin-top: 16px;
+}
+
+#load, #clear {
+  height: 35px;
+  width: 75px;
+  background-color: #419152;
+  border-radius: 4px;
+  font-size: 14px;
+  color: azure;
+}
+#load:hover, #clear:hover {
+  background-color: #59be6e;
+}
+
+a.single-links {
+  color: azure;
+  display: block;
+  margin: 4px auto;
+  text-align: center;
+  font-size: 16px;
 }
 
 /*# sourceMappingURL=index.css.map */

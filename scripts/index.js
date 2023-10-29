@@ -61,13 +61,18 @@ function createReference(form, references) {
             labelCheckbox.appendChild(labelLink);
             element = labelCheckbox;
         } else {
-            let labelCheckbox = document.createElement('label');
             let labelLink = document.createElement('a');
-            if (i!==0) labelCheckbox.setAttribute('for', 'check');
             labelLink.setAttribute('href', elementData.ref);
             labelLink.innerHTML = elementData.text;
-            labelCheckbox.appendChild(labelLink);
-            element = labelCheckbox;
+            if (i!==0) {
+                let labelCheckbox = document.createElement('label');
+                labelCheckbox.setAttribute('for', 'check');
+                labelCheckbox.appendChild(labelLink);
+                element = labelCheckbox;
+            } else {
+                labelLink.classList.add('single-links')
+                element = labelLink;
+            }
         }
         textBlock.appendChild(element);
     });
@@ -129,14 +134,33 @@ function deleteForm() {
         document.querySelector('.form-block').removeChild(document.querySelector("form"))
     }
 }
+function updateFiles() {
+    const inputFiles = document.querySelectorAll('.input-file');
+    inputFiles.forEach((fileBlock) => {
+        fileBlock.querySelector('.file-input').addEventListener('change', (event) => {
+            const input = event.target;
+            let files = input.files;
+            let inputText = fileBlock.querySelector('.file-text');
+            if (files.length <= 1) {
+                let file = files[0];
+                inputText.innerHTML = file.name;
+            } else {
+                inputText.innerHTML = `Выбранно файлов: ${files.length}`;
+            }
+        });
+    });
+}
 document.addEventListener('DOMContentLoaded', () => {
+    updateFiles();
     document.querySelector('#load').addEventListener('click', () => {
         let file = document.querySelector('#fileLoad').files[0];
         let reader = new FileReader();
+        if (file === undefined) return;
         reader.readAsText(file);
         reader.onload = async function () {
-            deleteForm();
+            await deleteForm();
             await forms(reader.result);
+            await updateFiles();
         }
         reader.onerror = function() {
             console.log(reader.error);

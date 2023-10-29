@@ -24,7 +24,6 @@ function textareaInput(form, inputData) {
     form.replaceChild(inputTextarea, input);
     inputTextarea.setAttribute('name', inputData.label );
     inputTextarea.setAttribute('id', inputData.label );
-    inputTextarea.setAttribute('rows', '2' );
     return inputTextarea;
 }
 function checkboxInput(form, inputData) {
@@ -61,7 +60,7 @@ function technologyInput(form, inputData) {
     elementBlock.setAttribute('multiple', 'true');
     elementBlock.setAttribute('size', '5');
 
-    standardOption.innerHTML = "choose";
+    standardOption.innerHTML = "none";
     elementBlock.appendChild(standardOption);
     inputData.input.technologies.forEach((technology) => {
         let element = document.createElement('option');
@@ -76,15 +75,24 @@ function technologyInput(form, inputData) {
 }
 function fileInput(form, inputData) {
     const input = simpleInput(form, inputData);
-    input.setAttribute('multiple', 'true')
     if (inputData.input.filetype) {
-        let acceptFiles = "";
-        let i =0;
-        inputData.input.filetype.forEach((type) => {
-            acceptFiles += (i === 0) ? "." + type : ",." + type;
-            i++;
-        });
+        let acceptFiles = ""; let i = 0;
+        inputData.input.filetype.forEach((type) => { acceptFiles += (i === 0) ? "." + type : ",." + type; i++; });
         input.setAttribute('accept', acceptFiles);
     }
+    if (inputData.input.multiple) input.setAttribute('multiple', 'true');
+    input.classList.add('file-input');
+    let button = createLabel(inputData);
+    button.innerHTML = "Выбрать файл";
+    button.classList.add('file-btn');
+    let text = document.createElement('span');
+    text.classList.add('file-text');
+    let fileBlock = document.createElement('div');
+    fileBlock.classList.add('input-file');
+    form.appendChild(fileBlock);
+    fileBlock.appendChild(text);
+    fileBlock.appendChild(input);
+    fileBlock.appendChild(button);
+
     return input;
 }
