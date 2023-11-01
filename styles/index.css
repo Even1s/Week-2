@@ -16,7 +16,7 @@ body {
   padding: 0 10px;
 }
 
-.form-block form {
+.form {
   background-color: #3458cc;
   border-radius: 12px;
   padding: 16px 18px;
@@ -25,17 +25,9 @@ body {
   flex-direction: column;
   align-items: flex-start;
 }
-.form-block form input[type=submit] {
-  height: 32px;
+.form__send-btn {
   font-size: 18px;
-  margin-top: 4px;
-}
-.form-block form label {
-  font-size: 20px;
-  margin-top: 4px;
-  color: azure;
-}
-.form-block form input[type=submit] {
+  margin-top: 8px;
   background-color: #419152;
   color: azure;
   border-radius: 4px;
@@ -43,41 +35,68 @@ body {
   width: 200px;
   align-self: center;
 }
-.form-block form input[type=submit]:hover {
+.form__send-btn:hover {
   background-color: #59be6e;
 }
-.form-block form input, .form-block form .input-file, .form-block form .checkbox-block {
+.form__input-title, .form__reference-text {
+  font-size: 20px;
+  margin-top: 4px;
+  color: azure;
+}
+.form input, .form .input-file, .form .checkbox-block {
   margin-bottom: 4px;
 }
-.form-block form textarea, .form-block form input[type=text], .form-block form input[type=password], .form-block form input[type=email], .form-block form input[type=number], .form-block form input[type=date] {
+.form__simple-input, .form__textarea-input {
   width: 100%;
   border-radius: 4px;
   height: 32px;
   font-size: 18px;
   padding-left: 6px;
 }
-.form-block form textarea {
+.form__textarea-input {
   height: 88px;
-  resize: none;
+  resize: vertical;
 }
-.form-block form select {
+.form select {
   border-radius: 4px;
   font-size: 16px;
   width: 100%;
 }
-
-.checkbox-block {
+.form__title {
+  color: azure;
+  font-size: 28px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.form__reference-block {
   margin-top: 4px;
   width: 100%;
+  color: azure;
+  font-size: 20px;
 }
-.checkbox-block input {
+.form__reference-block input {
   margin-right: 4px;
 }
-.checkbox-block a {
+.form__reference-text a {
   color: inherit;
 }
-
-.color-block label {
+.form__single-links {
+  display: block;
+  margin: 4px auto;
+  text-align: center;
+  font-size: 16px;
+  color: inherit;
+}
+.form__checkbox-block input {
+  margin-right: 4px;
+  width: unset;
+  height: unset;
+  margin-bottom: 0;
+}
+.form__checkbox-block a {
+  color: inherit;
+}
+.form__color-block label {
   display: inline-block;
   width: 48px;
   height: 16px;
@@ -86,22 +105,39 @@ body {
   border-radius: 4px;
 }
 
-.load-file-block {
+.load {
   background-color: #3458cc;
   border-radius: 12px;
   padding: 16px 18px;
   margin-bottom: 24px;
 }
-.load-file-block h1 {
+.load__title {
   color: azure;
   margin-bottom: 6px;
 }
+.load__button-block {
+  display: flex;
+  gap: 28px;
+  margin-top: 16px;
+}
+.load #load, .load #clear {
+  height: 35px;
+  width: 75px;
+  background-color: #419152;
+  border-radius: 4px;
+  font-size: 14px;
+  color: azure;
+}
+.load #load:hover, .load #clear:hover {
+  background-color: #59be6e;
+}
 
-.input-file {
+.file-block {
   position: relative;
   width: 100%;
 }
-.input-file .file-text {
+
+.file-name {
   padding: 0 10px;
   line-height: 40px;
   height: 40px;
@@ -112,7 +148,8 @@ body {
   background-color: rgba(221, 221, 221, 0.6);
   font-size: 18px;
 }
-.input-file .file-btn {
+
+.select-btn {
   position: relative;
   display: inline-block;
   cursor: pointer;
@@ -127,40 +164,24 @@ body {
   width: 135px;
   margin: 0;
 }
-.input-file .file-btn:hover {
+.select-btn:hover {
   background-color: #59be6e;
 }
-.input-file .file-input {
+
+.file-input {
   position: absolute;
   z-index: -1;
   opacity: 0;
   left: 0;
 }
 
-.button-block {
-  display: flex;
-  gap: 28px;
-  margin-top: 16px;
-}
-
-#load, #clear {
-  height: 35px;
-  width: 75px;
-  background-color: #419152;
-  border-radius: 4px;
-  font-size: 14px;
-  color: azure;
-}
-#load:hover, #clear:hover {
-  background-color: #59be6e;
-}
-
-a.single-links {
-  color: azure;
-  display: block;
-  margin: 4px auto;
-  text-align: center;
-  font-size: 16px;
+@media (max-width: 380px) {
+  .select-btn {
+    width: 115px;
+  }
+  .file-name {
+    width: calc(100% - 115px);
+  }
 }
 
 /*# sourceMappingURL=index.css.map */

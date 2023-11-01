@@ -2,11 +2,13 @@ function createLabel(inputData) {
     let inputLabel = document.createElement('label');
     inputLabel.innerHTML = inputData.label;
     inputLabel.setAttribute('for', inputData.label );
+    inputLabel.classList.add('form__input-title');
     return inputLabel;
 }
 function simpleInput(form, inputData, needLabel = false) {
     let input = document.createElement('input');
     input.setAttribute('type', inputData.input.type );
+    input.classList.add('form__simple-input');
     let inputLabel;
     if (inputData.label) {
         input.setAttribute('name', inputData.label );
@@ -22,6 +24,7 @@ function textareaInput(form, inputData) {
     let inputTextarea = document.createElement('textarea');
     const input = simpleInput(form, inputData);
     form.replaceChild(inputTextarea, input);
+    inputTextarea.classList.add('form__textarea-input');
     inputTextarea.setAttribute('name', inputData.label );
     inputTextarea.setAttribute('id', inputData.label );
     return inputTextarea;
@@ -29,7 +32,7 @@ function textareaInput(form, inputData) {
 function checkboxInput(form, inputData) {
     const checkboxArr = simpleInput(form, inputData, true);
     const CheckboxBlock = document.createElement('div');
-    CheckboxBlock.classList.add('checkbox-block');
+    CheckboxBlock.classList.add('form__checkbox-block');
     checkboxArr.forEach((el) => {
         el.parentNode.insertBefore(CheckboxBlock, el);
         CheckboxBlock.appendChild(el);
@@ -46,7 +49,7 @@ function colorInputs(form, inputData) {
         element.setAttribute('id', color);
         element.setAttribute('name', color);
         elementLabel.setAttribute('for', color);
-        elementBlock.classList.add(`color-block`);
+        elementBlock.classList.add(`form__color-block`);
         elementBlock.appendChild(element);
         elementBlock.appendChild(elementLabel);
         form.appendChild(elementBlock);
@@ -55,8 +58,9 @@ function colorInputs(form, inputData) {
 function technologyInput(form, inputData) {
     let elementLabel = document.createElement('label');
     let elementBlock = document.createElement('select');
-    elementLabel.innerHTML = inputData.label;
     let standardOption = document.createElement('option');
+    elementLabel.innerHTML = inputData.label;
+    elementLabel.classList.add('form__input-title');
     elementBlock.setAttribute('multiple', 'true');
     elementBlock.setAttribute('size', '5');
 
@@ -84,11 +88,11 @@ function fileInput(form, inputData) {
     input.classList.add('file-input');
     let button = createLabel(inputData);
     button.innerHTML = "Выбрать файл";
-    button.classList.add('file-btn');
+    button.classList.add('select-btn');
     let text = document.createElement('span');
-    text.classList.add('file-text');
+    text.classList.add('file-name');
     let fileBlock = document.createElement('div');
-    fileBlock.classList.add('input-file');
+    fileBlock.classList.add('file-block');
     form.appendChild(fileBlock);
     fileBlock.appendChild(text);
     fileBlock.appendChild(input);

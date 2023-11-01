@@ -37,7 +37,7 @@ function createInputs(form, inputData) {
 }
 function createReference(form, references) {
     let textBlock = document.createElement('div');
-    textBlock.classList.add('checkbox-block');
+    textBlock.classList.add('form__reference-block');
     let i = 0;
     references.forEach((elementData) => {
         let element;
@@ -55,6 +55,7 @@ function createReference(form, references) {
             let labelCheckbox = document.createElement('label');
             let labelLink = document.createElement('a');
             if (i!==0) labelCheckbox.setAttribute('for', 'check');
+            labelCheckbox.classList.add('form__reference-text');
             labelLink.setAttribute('href', elementData.ref);
             labelLink.innerHTML = elementData.text;
             labelCheckbox.innerHTML = elementData["text without ref"] + " ";
@@ -70,7 +71,7 @@ function createReference(form, references) {
                 labelCheckbox.appendChild(labelLink);
                 element = labelCheckbox;
             } else {
-                labelLink.classList.add('single-links')
+                labelLink.classList.add('form__single-links')
                 element = labelLink;
             }
         }
@@ -83,14 +84,20 @@ function createButton(form, formText) {
         let button = document.createElement('input');
         button.setAttribute('type', 'submit')
         button.setAttribute('value', buttonData.text);
+        button.classList.add('form__send-btn');
         form.appendChild(button);
     });
 }
 async function createForm(formText){
-    let formBlock = document.querySelector('.form-block');
     const form = document.createElement('form');
     form.setAttribute('name', 'form');
     form.setAttribute('id', 'form');
+    form.classList.add('form')
+
+    let title = document.createElement('h2');
+    title.classList.add("form__title");
+    title.innerHTML = formText.name;
+    form.appendChild(title);
 
     formText.fields.forEach((inputData) => {
         createInputs(form, inputData);
@@ -100,7 +107,7 @@ async function createForm(formText){
 
     if (formText.buttons) { createButton(form, formText); }
 
-    formBlock.appendChild(form);
+    document.querySelector('.form-block').appendChild(form);
     return form;
 }
 async function forms(text) {
@@ -135,12 +142,12 @@ function deleteForm() {
     }
 }
 function updateFiles() {
-    const inputFiles = document.querySelectorAll('.input-file');
+    const inputFiles = document.querySelectorAll('.file-block');
     inputFiles.forEach((fileBlock) => {
         fileBlock.querySelector('.file-input').addEventListener('change', (event) => {
             const input = event.target;
             let files = input.files;
-            let inputText = fileBlock.querySelector('.file-text');
+            let inputText = fileBlock.querySelector('.file-name');
             if (files.length <= 1) {
                 let file = files[0];
                 inputText.innerHTML = file.name;
